@@ -1,112 +1,75 @@
-# The Standard of Code Review
+# 代码审查的标准
 
+代码审查的主要目的是确保 Google 代码库的整体代码运行状况随着时间的推移而得到改善。
+代码审查的所有工具和流程都是为此而设计的。
 
+为了实现这一目标，必须进行一系列的权衡。
 
-The primary purpose of code review is to make sure that the overall
-code health of Google's code
-base is improving over time. All of the tools and processes of code review are
-designed to this end.
+首先，开发人员必须能够在他们的任务上**取得进展**。如果你从未提交过代码库的改进，那么
+代码库永远不会改进。此外，如果审查人员让审查过程变得异常严格，那么开发人员在未来进行
+改进的激励性将大打折扣。
 
-In order to accomplish this, a series of trade-offs have to be balanced.
+另一方面，审查者有责任确保每个 CL 具有这样的质量：即随着时间的推移，其代码库的整体代码
+健康状况不会降低。这可能很棘手，因为代码库通常会随着时间的推移而降低代码运行状况，尤其
+是当团队受到严重的时间限制并觉得必须采取特殊手段才能实现目标时。
 
-First, developers must be able to _make progress_ on their tasks. If you never
-submit an improvement to the codebase, then the codebase never improves. Also,
-if a reviewer makes it very difficult for _any_ change to go in, then developers
-are disincentivized to make improvements in the future.
+此外，审查人员对他们正在审查的代码拥有所有权和责任。他们希望确保代码库保持一致，可维护
+以及『[进行代码审查时需要注意什么](looking-for.md)』中提到的所有其他内容。
 
-On the other hand, it is the duty of the reviewer to make sure that each CL is
-of such a quality that the overall code health of their codebase is not
-decreasing as time goes on. This can be tricky, because often, codebases degrade
-through small decreases in code health over time, especially when a team is
-under significant time constraints and they feel that they have to take
-shortcuts in order to accomplish their goals.
+因此，我们将以下规则作为我们在代码审查中期望的标准：
 
-Also, a reviewer has ownership and responsibility over the code they are
-reviewing. They want to ensure that the codebase stays consistent, maintainable,
-and all of the other things mentioned in
-["What to look for in a code review."](looking-for.md)
+**一般来说，审查人员应该倾向于批准哪些能够肯定会提高正在处理的系统的整体代码健康状态**
+**的 CL（尽管现在还不完美）。**
 
-Thus, we get the following rule as the standard we expect in code reviews:
+这是所有代码审查指南中的**唯一的**高级原则。
 
-**In general, reviewers should favor approving a CL once it is in a state where
-it definitely improves the overall
-code health of the system
-being worked on, even if the CL isn't perfect.**
+当然，这有一些限制。例如，如果 CL 添加了审查者在其系统中不需要的功能，那么即使代码设计
+良好，审查者也肯定会拒绝批准。
 
-That is _the_ senior principle among all of the code review guidelines.
+这里的一个关键点是没有『最好的』代码，只有『**更好的**』代码。审查人不应要求作者在批准之前
+对每一小块 CL 进行润色。相反，与他们所建议的变化的重要性相比，审查人员应该平衡进展的
+必要性。审查人应该寻求的是**持续改进**，而不是追求完美。作为一个整体，能够提高系统的可维护性，
+可读性和可理解性的 CL 不应该因为它不是『完美的』而延迟数天或数周。
 
-There are limitations to this, of course. For example, if a CL adds a feature
-that the reviewer doesn't want in their system, then the reviewer can certainly
-deny approval even if the code is well-designed.
+评论者应该**总是**表达可能更好的东西的评论，但如果这些内容不是很重要，请在其前面加上
+『Nit：』之类的内容，让作者知道这只是他们可以选择忽略的内容。
 
-A key point here is that there is no such thing as "perfect" code&mdash;there is
-only _better_ code. Reviewers should not require the author to polish every tiny
-piece of a CL before granting approval. Rather, the reviewer should balance out
-the need to make forward progress compared to the importance of the changes they
-are suggesting. Instead of seeking perfection, what a reviewer should seek is
-_continuous improvement_. A CL that, as a whole, improves the maintainability,
-readability, and understandability of the system shouldn't be delayed for days
-or weeks because it isn't "perfect."
+注意：本文档中没有任何内容证明在 CL 中检查肯定会使系统的整体代码运行状况**变得更差**。
+你唯一能做的就是[紧急处理](../emergencies.md)。
 
-Reviewers should _always_ feel free to leave comments expressing that something
-could be better, but if it's not very important, prefix it with something like
-"Nit: " to let the author know that it's just a point of polish that they could
-choose to ignore.
+## 指导
 
-Note: Nothing in this document justifies checking in CLs that definitely
-_worsen_ the overall code health of the system. The only time you would do that
-would be in an [emergency](../emergencies.md).
+代码审查可以具有向开发人员指导有关语言、框架或通用软件设计原则的新的重要功能。
+留下评论可以帮助开发人员学习新东西总是好的。分享知识是随着时间的推移改善系统代码
+健康状况的一部分。请记住，如果你的纯粹只是评论带有教育性、但对于满足本文档中
+描述的标准并不重要的内容，请在其前面添加『Nit：』或以其他方式表明作者不必在
+此 CL 中解决它。
 
-## Mentoring
+## 原则 {#principles}
 
-Code review can have an important function of teaching developers something new
-about a language, a framework, or general software design principles. It's
-always fine to leave comments that help a developer learn something new. Sharing
-knowledge is part of improving the code health of a system over time. Just keep
-in mind that if your comment is purely educational, but not critical to meeting
-the standards described in this document, prefix it with "Nit: " or otherwise
-indicate that it's not mandatory for the author to resolve it in this CL.
+*   技术事实和数据比意见和个人偏好更具说服力。
 
-## Principles {#principles}
+*   在代码风格问题上，[代码风格指南](http://google.github.io/styleguide/) 是绝对权威。
+    任何不在风格指南中的风格（空格等）都是个人偏好问题。代码风格应该与那里描述的的风格
+    一致。如果存在没有规定的风格，请接受作者的风格。
+*   **软件设计方面几乎从来不是纯粹的风格问题，也不仅仅是个人偏好。**软件设计应当基于
+    一些基本原则，我们应该权衡这些原则，而不仅仅是个人的意见。有这样一些有效的选项：
+    如果作者可以证明（通过数据或基于可靠的工程原理）几种方法同样有效，那么审查者应该
+    接受作者的偏好。否则，选择取决于软件设计的标准原则。
+*   如果没有其他规则适用，则审查者可以要求作者与当前代码库中的内容保持一致，只要这不会
+    使系统的整体代码健康状况变得更糟。
 
-*   Technical facts and data overrule opinions and personal preferences.
+## 解决冲突 {#conflicts}
 
-*   On matters of style, the [style guide](http://google.github.io/styleguide/)
-    is the absolute authority. Any purely style point (whitespace, etc.) that is
-    not in the style guide is a matter of personal preference. The style should
-    be consistent with what is there. If there is no previous style, accept the
-    author's.
+在代码审查的任何冲突中，始终应该首先尝试让开发人员和审查人员根据本文档的内容以及
+『[CL作者指南](../developer/)』和『[本审查者指南](index.md)』中的其他文档达成共识。
 
-*   **Aspects of software design are almost never a pure style issue or just a
-    personal preference.** They are based on underlying principles and should be
-    weighed on those principles, not simply by personal opinion. Sometimes there
-    are a few valid options. If the author can demonstrate (either through data
-    or based on solid engineering principles) that several approaches are
-    equally valid, then the reviewer should accept the preference of the author.
-    Otherwise the choice is dictated by standard principles of software design.
+当很难达成共识时，在审查人员和代码作者之间进行面对面的会议或 VC 会很有帮助，而不应该
+仅仅是尝试通过代码审查评论来解决冲突。（但是，如果你这样做，请确保在对 CL 的评论中记录
+讨论结果，以供将来的读者使用。）
 
-*   If no other rule applies, then the reviewer may ask the author to be
-    consistent with what is in the current codebase, as long as that doesn't
-    worsen the overall code health of the system.
+如果这仍不能解决问题，解决问题的最常用方法是进行冲突升级。通常，升级冲突的方法是进行
+更广泛的团队讨论，让 TL 进行权衡，要求维护人员对代码做出决定，或要求工程经理提供帮助。
+**不要因为作者和审查人不能达成协议而让 CL 待在那里一动不动。**
 
-## Resolving Conflicts {#conflicts}
-
-In any conflict on a code review, the first step should always be for the
-developer and reviewer to try to come to consensus, based on the contents of
-this document and the other documents in [The CL Author's Guide](../developer/)
-and this [Reviewer Guide](index.md).
-
-When coming to consensus becomes especially difficult, it can help to have a
-face-to-face meeting or a VC between the reviewer and the author, instead of
-just trying to resolve the conflict through code review comments. (If you do
-this, though, make sure to record the results of the discussion in a comment on
-the CL, for future readers.)
-
-If that doesn't resolve the situation, the most common way to resolve it would
-be to escalate. Often the
-escalation path is to a broader team discussion, having a TL weigh in, asking
-for a decision from a maintainer of the code, or asking an Eng Manager to help
-out. **Don't let a CL sit around because the author and the reviewer can't come
-to an agreement.**
-
-Next: [What to look for in a code review](looking-for.md)
+下一篇: [进行代码审查时需要注意什么](looking-for.md)
